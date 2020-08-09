@@ -50,7 +50,12 @@ def transform_nikkei(bs: BeautifulSoup, last_update_date: dt.datetime, code: str
     stock_history = bs.find_all("table", {"class": "w668"})
 
     if len(stock_history) == 0:
-
+        non_listing_flg = bs.find("div", {"class": "m-breadcrumb"})
+        if non_listing_flg is None:
+            return None
+        non_listing_flg = non_listing_flg.get_text()
+        if "非上場" in non_listing_flg:
+            return False
         return None
     
     stock = stock_history[0]
@@ -72,8 +77,8 @@ def transform_nikkei(bs: BeautifulSoup, last_update_date: dt.datetime, code: str
         
         date = convert_date(date)
 
-        if date < last_update_date:
-            continue
+        # if date < last_update_date:
+        #     continue
         
         stock_values.append(date)
         

@@ -25,10 +25,25 @@ def get_listing_code():
     req = select(sql)
     return req
 
+def update_listing_flg(code):
+    with closing(sqlite3.connect(DB)) as conn:
+        try:
+            c = conn.cursor()
+            sql = f'update sec_main set ipo_flag = 1 where code = ?'
+            c.execute(sql, [(code)])
+            conn.commit()
+        except sqlite3.Error as e:
+            print(e)
+            return False
+    return True
+
 def update_stock_history(code, cdf):
     with closing(sqlite3.connect(DB)) as conn:
         try:
             c = conn.cursor()
+
+            sql_create_stock = f'create table if not exists code_{code} (date primary key,open int,high int,low int,close int,adj_close int,volume int)'
+            c.execute(sql_create_stock)
 
             sql_update_stock = f'replace into code_{code} (date,open,high,low,close,adj_close,volume) values (?,?,?,?,?,?,?)'
             cdf = cdf[["date", "open", "high", "low", "close", "adj_close", "volume"]]

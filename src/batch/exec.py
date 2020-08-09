@@ -58,10 +58,16 @@ def exec_scrape_update():
                 logger.error(f"invalid html {code}")
                 continue
 
+            if df is False:
+                logger.info(f"no listing {code}")
+                if not(update_listing_flg(code)):
+                    logger.error(f"failed no listing {code}")
+                continue
+
             if len(df) == 0:
                 logger.error(f"no update {code}")
                 continue
-
+            
             # set db
             if not(update_stock_history(code, df)):
                 logger.error(f"There are bug {code}")
