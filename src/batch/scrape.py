@@ -77,8 +77,8 @@ def transform_nikkei(bs: BeautifulSoup, last_update_date: dt.datetime, code: str
         
         date = convert_date(date)
 
-        # if date < last_update_date:
-        #     continue
+        if date < last_update_date:
+            continue
         
         stock_values.append(date)
         
