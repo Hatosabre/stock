@@ -10,5 +10,10 @@ services:
             - ../src:/etc/stock_work/src
             - ../notebooks:/etc/stock_work/notebooks
             - ../data:/etc/stock_work/data
+        ports: 
+            - "8888:8888"
+            - "8000:8000"
+            - "443:443"
+            - "80:80"
         expose: 
             - "8888"
