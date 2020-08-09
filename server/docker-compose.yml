@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+    server:
+        build:
+            context: ../
+            dockerfile: ./server/Dockerfile
+        container_name: stock
+        volumes: 
+            - ../src:/etc/stock_work/src
+            - ../notebooks:/etc/stock_work/notebooks
+            - ../data:/etc/stock_work/data
+        expose: 
+            - "8888"
